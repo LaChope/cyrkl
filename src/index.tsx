@@ -1,14 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOMClient from "react-dom/client";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+import "../src/styles/global.css";
+import reportWebVitals from "./reportWebVitals";
+import Fraudster from "./components/Fraudster";
+
+// Replacing with new API: https://github.com/reactwg/react-18/discussions/5
+const container: HTMLElement | null = document.getElementById("root");
+container &&
+ReactDOMClient.createRoot(container).render(
+    <React.StrictMode>
+        <Fraudster />
+    </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
