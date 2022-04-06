@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import products from "../assets/api.cyrkl.com/cdi/products.json";
+import axios from "axios";
 import LoadingSpinnerIcon from "../styles/icons/LoadindSpinnerIcon";
 import { ProductInterface } from "../../utils/Interfaces";
 import ProductList from "./ProductList";
@@ -15,15 +15,27 @@ const Fraudster = () => {
   const [update, setUpdate] = useState<boolean>(false);
 
   useEffect(() => {
-    const fetchData = products;
-    fetchData && setIsLoading(false);
-    !fetchData && setErrorMessage("error");
-    setProductList([...fetchData]);
+    const fetchProducts = async () => {
+      setIsLoading(true);
+      setUpdate(false);
+      const { data } = await axios.get("https://api.cyrkl.com/cdi/products");
+      setProductList([...data]);
+    };
+    fetchProducts().then(() => {
+      setIsLoading(false);
+    });
+    fetchProducts().catch((error) => {
+      setErrorMessage(error.toString());
+    });
   }, [update]);
 
   useEffect(() => {
     setErrorMessage("");
   }, []);
+
+  const handleUpdateClick = () => {
+    setUpdate(true);
+  };
 
   const renderProductList = () => {
     return (
@@ -40,7 +52,12 @@ const Fraudster = () => {
             <h1>Cyrkl Fraudster Detector</h1>
             <h2>Products potentially fraudulent:</h2>
         </div>
-      <React.Fragment>{renderProductList()}</React.Fragment>
+      <div className={styles.dashboard}>
+        {renderProductList()}
+        <button className={styles.button} onClick={handleUpdateClick}>
+          Update
+        </button>
+      </div>
     </div>
   );
 };

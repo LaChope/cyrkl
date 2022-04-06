@@ -4,4 +4,29 @@
   align-items: center;
   height: 100vh;
   width: 100vw;
+  overflow: hidden;
+}
+
+.dashboard {
+  padding: 2rem;
+  width: 100%;
+}
+
+.button {
+  font-size: 1em;
+  padding: 0.35em 1.2em;
+  border: 0.1em solid #FFFFFF;
+  margin: 0.3em 0 0.3em 0;
+  border-radius: 0.12em;
+  font-weight: 300;
+  text-align: center;
+  width: 100%;
+  cursor: pointer;
+  color: black;
+  max-width: 40vw;
+
+  &:hover {
+    transition: 0.3s;
+    opacity: 20%;
+  };
 }
