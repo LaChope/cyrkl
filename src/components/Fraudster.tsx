@@ -9,9 +9,7 @@ import styles from "./Fraudster.module.scss";
 const Fraudster = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const [productList, setProductList] = useState<Array<ProductInterface>>(
-    []
-  );
+  const [productList, setProductList] = useState<Array<ProductInterface>>([]);
   const [update, setUpdate] = useState<boolean>(false);
 
   useEffect(() => {
@@ -48,10 +46,9 @@ const Fraudster = () => {
   };
   return (
     <div className={styles.container}>
-        <div className={styles.header}>
-            <h1>Cyrkl Fraudster Detector</h1>
-            <h2>Products potentially fraudulent:</h2>
-        </div>
+      <div className={styles.header}>
+        <h1>Cyrkl Fraudster Detector</h1>
+      </div>
       <div className={styles.dashboard}>
         {renderProductList()}
         <button className={styles.button} onClick={handleUpdateClick}>

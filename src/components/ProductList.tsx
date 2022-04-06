@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ProductInterface } from "../../utils/Interfaces";
 import classNames from "classnames/bind";
 
@@ -8,38 +8,79 @@ interface Props {
   productList: Array<ProductInterface>;
 }
 
+const cn = classNames.bind(styles);
+
 const ProductList = ({ productList }: Props) => {
-  const applyProgressStatusClass = (product: ProductInterface) => {
-    return "";
+  const applyThreatStatusClass = (products: Array<ProductInterface>) => {
+    if (products[0].threat_level > 1 && products[0].threat_level < 3) {
+      return "product-status-suspicious";
+    }
+
+    if (products[0].threat_level > 3) {
+      return "product-status-fraudulent";
+    }
+    return "product-status-verified";
   };
 
-  const sortedProductListByFraudulence = (
-    productList: Array<ProductInterface>
-  ) => {
-    let product: Array<ProductInterface> = [];
-    for (let i = 0; i < productList.length; i++) {
-        product.push()
+  const applyThreatLevel = (groupedProducts: Array<ProductInterface>) => {
+    for (let i = 0; i < groupedProducts.length; i++) {
+      const product = groupedProducts[i];
+      product.threat_level = 0;
+      if (groupedProducts.length > 1) {
+        product.threat_level = product.threat_level + 2;
+        product.threat_similar_product = true;
+      }
+      if (/[0-9]/.test(product.perex0)) {
+        product.threat_level++;
+        product.threat_phone_number = true;
+      }
+      if (/@[a-zA-Z]+\.com/.test(product.perex0)) {
+        product.threat_level++;
+        product.threat_email = true;
+      }
+      if (/ve zprávě/.test(product.perex0)) {
+        product.threat_level++;
+        product.threat_contact = true;
+      }
     }
   };
 
-  const renderProductList = (product: ProductInterface) => {
-    return (
-      <React.Fragment>
-        <p>{"#" + product.id + " - " + product.name0} </p>
-      </React.Fragment>
-    );
+  const groupedProducts = (productList: Array<ProductInterface>) => {
+    return Object.entries(groupBy(productList, "name0"));
   };
 
-  const cn = classNames.bind(styles);
+  const groupBy = (array: Array<any>, key: string) =>
+    array.reduce((objectsByKeyValue, obj) => {
+      const value = obj[key];
+      objectsByKeyValue[value] = (objectsByKeyValue[value] || []).concat(obj);
+      return objectsByKeyValue;
+    }, {});
+
+  const renderProductList = (
+    productName: string,
+    products: Array<ProductInterface>
+  ) => {
+    applyThreatLevel(products);
+    return productName;
+  };
+
+  const products = groupedProducts(productList);
 
   return (
     <ul className={styles.productItems}>
-      {productList.map((product: ProductInterface) => (
+      {products.map((product: any, index: number) => (
         <li
-          key={product.id}
-          className={cn("productItem", applyProgressStatusClass(product))}
+          key={index}
+          className={cn("productItem", applyThreatStatusClass(product[1]))}
         >
-          {renderProductList(product)}
+          {product[1].length + "x " + renderProductList(product[0], product[1])}
+          <p>
+            Product: #{product[1][0].id} --- Threat level :{" "}
+            {product[1][0].threat_level}/5 ---{" "}
+            {product[1][0].threat_email && "email detected"} ---{" "}
+            {product[1][0].threat_contact && "contact asked"} ---{" "}
+            {product[1][0].threat_phone_number && "phone number detected"}
+          </p>
         </li>
       ))}
     </ul>

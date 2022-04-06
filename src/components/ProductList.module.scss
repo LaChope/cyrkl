@@ -2,19 +2,15 @@
   overflow-y: scroll;
   padding: 1rem 4rem;
   align-self: flex-start;
-  max-width: 40vw;
   max-height: 80vh;
 }
 
 .productItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   padding-bottom: 0.5rem;
   padding-top: 0.5rem;
-  cursor: pointer;
-
-  &:hover {
-    transition: 0.3s;
-    opacity: 50%;
-  }
 
   &.product-status-verified {
     color: #00b050;
