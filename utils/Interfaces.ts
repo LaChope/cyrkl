@@ -48,3 +48,12 @@ export interface ProductInterface {
   threat_phone_number: boolean;
   threat_contact: boolean;
 }
+
+export interface CustomerInterface {
+  company: string;
+  email: string;
+  first_name: string;
+  id: number;
+  last_name: string;
+  registration_source: string;
+}
