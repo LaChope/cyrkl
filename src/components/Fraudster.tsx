@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import LoadingSpinnerIcon from "../styles/icons/LoadindSpinnerIcon";
+import LoadingSpinnerIcon from "../styles/icons/LoadingSpinnerIcon";
 import { CustomerInterface, ProductInterface } from "../../utils/Interfaces";
 import ProductList from "./ProductList";
 import CustomerList from "./CustomerList";
@@ -65,6 +65,8 @@ const Fraudster = () => {
   const renderProductList = () => {
     return (
       <React.Fragment>
+        <h2>Fraudulent Products:</h2>
+        <p>Red products are highly suspicious, orange are suspicious, green are not suspicious</p>
         {isLoading1 && errorMessage1 && <p>{errorMessage1}</p>}
         {isLoading1 && !errorMessage1 && <LoadingSpinnerIcon />}
         {!isLoading1 && <ProductList productList={productList} />}
@@ -75,6 +77,8 @@ const Fraudster = () => {
   const renderCustomerList = () => {
     return (
       <React.Fragment>
+        <h2>Fraudulent Customers:</h2>
+        <p>Red customers are highly suspicious, orange are suspicious, green are not suspicious</p>
         {isLoading2 && errorMessage2 && <p>{errorMessage2}</p>}
         {isLoading2 && !errorMessage2 && <LoadingSpinnerIcon />}
         {!isLoading2 && <CustomerList customerList={customerList} />}
