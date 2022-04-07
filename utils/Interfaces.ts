@@ -56,4 +56,7 @@ export interface CustomerInterface {
   id: number;
   last_name: string;
   registration_source: string;
+  threat_level: number;
+  threat_no_company: boolean;
+  threat_email: boolean;
 }

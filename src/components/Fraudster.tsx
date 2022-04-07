@@ -17,7 +17,7 @@ const Fraudster = () => {
     []
   );
   const [update, setUpdate] = useState<boolean>(false);
-  const [page, setPage] = useState<boolean>(true);
+  const [page, setPage] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -25,7 +25,6 @@ const Fraudster = () => {
       setUpdate(false);
       const { data } = await axios.get("https://api.cyrkl.com/cdi/products");
       setProductList([...data]);
-      console.log(data);
     };
     fetchProducts().then(() => {
       setIsLoading1(false);
@@ -41,7 +40,6 @@ const Fraudster = () => {
       setUpdate(false);
       const { data } = await axios.get("https://api.cyrkl.com/cdi/customers");
       setCustomerList([...data]);
-      console.log(data);
     };
     fetchCustomers().then(() => {
       setIsLoading2(false);
@@ -61,6 +59,7 @@ const Fraudster = () => {
 
   const handleChangePageClick = () => {
     setPage(!page);
+    setUpdate(true);
   };
 
   const renderProductList = () => {
@@ -78,7 +77,7 @@ const Fraudster = () => {
       <React.Fragment>
         {isLoading2 && errorMessage2 && <p>{errorMessage2}</p>}
         {isLoading2 && !errorMessage2 && <LoadingSpinnerIcon />}
-        {!isLoading2 && <CustomerList />}
+        {!isLoading2 && <CustomerList customerList={customerList} />}
       </React.Fragment>
     );
   };

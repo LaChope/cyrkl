@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { ProductInterface } from "../../utils/Interfaces";
 import classNames from "classnames/bind";
 
-import styles from "./ProductList.module.scss";
+import styles from "./ItemList.module.scss";
 
 interface Props {
   productList: Array<ProductInterface>;
@@ -11,15 +11,15 @@ interface Props {
 const cn = classNames.bind(styles);
 
 const ProductList = ({ productList }: Props) => {
-  const applyThreatStatusClass = (products: Array<ProductInterface>) => {
+  const applyThreatLevelClass = (products: Array<ProductInterface>) => {
     if (products[0].threat_level > 1 && products[0].threat_level < 3) {
-      return "product-status-suspicious";
+      return "item-threat-medium";
     }
 
     if (products[0].threat_level > 3) {
-      return "product-status-fraudulent";
+      return "item-threat-high";
     }
-    return "product-status-verified";
+    return "item-threat-low";
   };
 
   const applyThreatLevel = (groupedProducts: Array<ProductInterface>) => {
@@ -67,13 +67,19 @@ const ProductList = ({ productList }: Props) => {
   const products = groupedProducts(productList);
 
   return (
-    <ul className={styles.productItems}>
+    <ul className={styles.items}>
       {products.map((product: any, index: number) => (
         <li
           key={index}
-          className={cn("productItem", applyThreatStatusClass(product[1]))}
+          className={cn(styles.item, applyThreatLevelClass(product[1]))}
         >
-          {product[1].length + "x " + renderProductList(product[0], product[1])}
+          -{" "}
+          {product[1].length > 1
+            ? product[1].length +
+              "x " +
+              renderProductList(product[0], product[1])
+            : renderProductList(product[0], product[1])}
+          {}
           <p>
             Product: #{product[1][0].id} --- Threat level :{" "}
             {product[1][0].threat_level}/5 ---{" "}

@@ -1,24 +1,24 @@
-.productItems {
+.items {
   overflow-y: scroll;
   padding: 1rem 4rem;
   align-self: flex-start;
   max-height: 80vh;
 }
 
-.productItem {
+.item {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding-bottom: 0.5rem;
   padding-top: 0.5rem;
 
-  &.product-status-verified {
+  &.item-threat-low {
     color: #00b050;
   }
-  &.product-status-fraudulent {
+  &.item-threat-high {
     color: #b70d00;
   }
-  &.product-status-suspicious {
-    color: #ff6d34;
+  &.item-threat-medium {
+    color: #ffbf34;
   }
 }
